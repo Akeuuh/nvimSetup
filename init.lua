@@ -294,6 +294,10 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   pattern = '*',
 })
 
+-- [[ Tab control ]]
+vim.api.nvim_set_keymap('n', '<C-t>', ':tabnew<CR>', { noremap = true })
+vim.api.nvim_set_keymap('n', '<C-w>', ':tabclose<CR>', { noremap = true })
+
 -- [[ Configure Telescope ]]
 -- See `:help telescope` and `:help telescope.setup()`
 require('telescope').setup {
@@ -302,6 +306,14 @@ require('telescope').setup {
       i = {
         ['<C-u>'] = false,
         ['<C-d>'] = false,
+      },
+    },
+    theme = 'center',
+    sorting_strategy = 'ascending',
+    layout_config = {
+      horizontal = {
+        prompt_position = 'bottom',
+        preview_width = 0.4,
       },
     },
   },
@@ -334,7 +346,6 @@ vim.api.nvim_set_keymap('n', '<space>fb', ':Telescope file_browser<CR>', { norem
 pcall(require('telescope').load_extension, 'fzf')
 
 require('telescope').load_extension 'file_browser'
-
 -- See `:help telescope.builtin`
 vim.keymap.set('n', '<leader>?', require('telescope.builtin').oldfiles, { desc = '[?] Find recently opened files' })
 vim.keymap.set('n', '<leader><space>', require('telescope.builtin').buffers, { desc = '[ ] Find existing buffers' })
