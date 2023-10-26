@@ -283,6 +283,11 @@ vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 
+-- Buffer manipulation
+vim.keymap.set('n', '<leader>bf', ':Telescope buffers<CR>', { desc = 'Afficher les buffers' })
+vim.keymap.set('n', '<leader>bp', ':bprev<CR>', { desc = 'Aller au buffer precedent' })
+vim.keymap.set('n', '<leader>bn', ':bnext<CR>', { desc = 'Aller au buffer suivant' })
+
 -- [[ Highlight on yank ]]
 -- See `:help vim.highlight.on_yank()`
 local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
