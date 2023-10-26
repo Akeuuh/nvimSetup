@@ -165,8 +165,8 @@ require('lazy').setup({
     -- See `:help lualine.txt`
     opts = {
       options = {
-        icons_enabled = false,
-        theme = 'onedark',
+        icons_enabled = true,
+        theme = 'oceanicnext',
         component_separators = '|',
         section_separators = '',
       },
@@ -240,7 +240,8 @@ require('lazy').setup({
 vim.o.hlsearch = false
 
 -- Make line numbers default
-vim.wo.number = true
+vim.o.number = true
+vim.o.relativenumber = true
 
 -- Enable mouse mode
 vim.o.mouse = 'a'
@@ -283,11 +284,6 @@ vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 
--- Buffer manipulation
-vim.keymap.set('n', '<leader>bf', ':Telescope buffers<CR>', { desc = 'Afficher les buffers' })
-vim.keymap.set('n', '<leader>bp', ':bprev<CR>', { desc = 'Aller au buffer precedent' })
-vim.keymap.set('n', '<leader>bn', ':bnext<CR>', { desc = 'Aller au buffer suivant' })
-
 -- [[ Highlight on yank ]]
 -- See `:help vim.highlight.on_yank()`
 local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
@@ -298,6 +294,16 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   group = highlight_group,
   pattern = '*',
 })
+
+-- [[ Buffer and tab keymaps ]]
+vim.api.nvim_set_keymap('n', '<leader>bf', ':Telescope buffers<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<leader>bp', ':bprev<CR>', { desc = 'Aller au buffer precedent', noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<leader>bn', ':bnext<CR>', { desc = 'Aller au buffer suivant', noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<leader>bw', ':bdelete<CR>', { desc = 'Close active buffer' })
+vim.api.nvim_set_keymap('n', '<leader>tt', ':tabnew<CR>', { desc = 'Create new tab' })
+vim.api.nvim_set_keymap('n', '<leader>tn', ':tabnext<CR>', { desc = 'Go to next tab' })
+vim.api.nvim_set_keymap('n', '<leader>tp', ':tabprev<CR>', { desc = 'Go to previous tab' })
+vim.api.nvim_set_keymap('n', '<leader>tw', ':tabclose<CR>', { desc = 'Close active tab' })
 
 -- [[ Configure Telescope ]]
 -- See `:help telescope` and `:help telescope.setup()`
