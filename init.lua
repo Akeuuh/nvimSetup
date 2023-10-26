@@ -294,10 +294,6 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   pattern = '*',
 })
 
--- [[ Tab control ]]
-vim.api.nvim_set_keymap('n', '<C-t>', ':tabnew<CR>', { noremap = true })
-vim.api.nvim_set_keymap('n', '<C-w>', ':tabclose<CR>', { noremap = true })
-
 -- [[ Configure Telescope ]]
 -- See `:help telescope` and `:help telescope.setup()`
 require('telescope').setup {
