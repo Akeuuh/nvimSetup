@@ -18,6 +18,9 @@ return {
         cmd = nil,
         args = {},
       },
+      filters = {
+        dotfiles = false,
+      },
     }
 
     vim.api.nvim_set_keymap('n', '<leader>m', ':NvimTreeToggle<CR>', { desc = 'Toggle file explorer' })

@@ -300,6 +300,7 @@ vim.api.nvim_set_keymap('n', '<leader>bf', ':Telescope buffers<CR>', { noremap =
 vim.api.nvim_set_keymap('n', '<leader>bp', ':bprev<CR>', { desc = 'Aller au buffer precedent', noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<leader>bn', ':bnext<CR>', { desc = 'Aller au buffer suivant', noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<leader>bw', ':bdelete<CR>', { desc = 'Close active buffer' })
+vim.api.nvim_set_keymap('n', '<leader>ba', ':%bdelete<CR>', { desc = 'Close active buffer' })
 vim.api.nvim_set_keymap('n', '<leader>tt', ':tabnew<CR>', { desc = 'Create new tab' })
 vim.api.nvim_set_keymap('n', '<leader>tn', ':tabnext<CR>', { desc = 'Go to next tab' })
 vim.api.nvim_set_keymap('n', '<leader>tp', ':tabprev<CR>', { desc = 'Go to previous tab' })
@@ -580,15 +581,6 @@ cmp.setup {
       behavior = cmp.ConfirmBehavior.Replace,
       select = true,
     },
-    ['<Tab>'] = cmp.mapping(function(fallback)
-      if cmp.visible() then
-        cmp.select_next_item()
-      elseif luasnip.expand_or_locally_jumpable() then
-        luasnip.expand_or_jump()
-      else
-        fallback()
-      end
-    end, { 'i', 's' }),
     ['<S-Tab>'] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.select_prev_item()
