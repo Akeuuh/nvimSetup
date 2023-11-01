@@ -15,7 +15,7 @@ Kickstart.nvim is a template for your own configuration.
 
   If you don't know anything about Lua, I recommend taking some time to read through
   a guide. One possible example:
-  - https://learnxinyminutes.com/docs/lua/
+  - https://learnxinyminutes.com/docs/lua/ m
 
 
   And then you can explore or search through `:help lua-guide`
@@ -151,15 +151,6 @@ require('lazy').setup({
   },
 
   {
-    -- Theme inspired by Atom
-    'sainnhe/sonokai',
-    priority = 1000,
-    config = function()
-      vim.cmd.colorscheme 'sonokai'
-    end,
-  },
-
-  {
     -- Set lualine as statusline
     'nvim-lualine/lualine.nvim',
     -- See `:help lualine.txt`
@@ -206,15 +197,6 @@ require('lazy').setup({
       'nvim-telescope/telescope-file-browser.nvim',
       'MunifTanjim/prettier.nvim',
     },
-  },
-
-  {
-    -- Highlight, edit, and navigate code
-    'nvim-treesitter/nvim-treesitter',
-    dependencies = {
-      'nvim-treesitter/nvim-treesitter-textobjects',
-    },
-    build = ':TSUpdate',
   },
 
   -- NOTE: Next Step on Your Neovim Journey: Add/Configure additional "plugins" for kickstart
@@ -300,7 +282,7 @@ vim.api.nvim_set_keymap('n', '<leader>bf', ':Telescope buffers<CR>', { noremap =
 vim.api.nvim_set_keymap('n', '<leader>bp', ':bprev<CR>', { desc = 'Aller au buffer precedent', noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<leader>bn', ':bnext<CR>', { desc = 'Aller au buffer suivant', noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<leader>bw', ':bdelete<CR>', { desc = 'Close active buffer' })
-vim.api.nvim_set_keymap('n', '<leader>ba', ':%bdelete<CR>', { desc = 'Close active buffer' })
+vim.api.nvim_set_keymap('n', '<leader>ba', ':%bdelete<CR>', { desc = 'Close all active buffer' })
 vim.api.nvim_set_keymap('n', '<leader>tt', ':tabnew<CR>', { desc = 'Create new tab' })
 vim.api.nvim_set_keymap('n', '<leader>tn', ':tabnext<CR>', { desc = 'Go to next tab' })
 vim.api.nvim_set_keymap('n', '<leader>tp', ':tabprev<CR>', { desc = 'Go to previous tab' })
@@ -373,75 +355,6 @@ vim.keymap.set('n', '<leader>sg', require('telescope.builtin').live_grep, { desc
 vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
 vim.keymap.set('n', '<leader>sr', require('telescope.builtin').resume, { desc = '[S]earch [R]esume' })
 
--- [[ Configure Treesitter ]]
--- See `:help nvim-treesitter`
--- Defer Treesitter setup after first render to improve startup time of 'nvim {filename}'
-vim.defer_fn(function()
-  require('nvim-treesitter.configs').setup {
-    -- Add languages to be installed here that you want installed for treesitter
-    ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'javascript', 'typescript', 'vimdoc', 'vim', 'bash' },
-
-    -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
-    auto_install = false,
-
-    highlight = { enable = true },
-    indent = { enable = true },
-    incremental_selection = {
-      enable = true,
-      keymaps = {
-        init_selection = '<c-space>',
-        node_incremental = '<c-space>',
-        scope_incremental = '<c-s>',
-        node_decremental = '<M-space>',
-      },
-    },
-    textobjects = {
-      select = {
-        enable = true,
-        lookahead = true, -- Automatically jump forward to textobj, similar to targets.vim
-        keymaps = {
-          -- You can use the capture groups defined in textobjects.scm
-          ['aa'] = '@parameter.outer',
-          ['ia'] = '@parameter.inner',
-          ['af'] = '@function.outer',
-          ['if'] = '@function.inner',
-          ['ac'] = '@class.outer',
-          ['ic'] = '@class.inner',
-        },
-      },
-      move = {
-        enable = true,
-        set_jumps = true, -- whether to set jumps in the jumplist
-        goto_next_start = {
-          [']m'] = '@function.outer',
-          [']]'] = '@class.outer',
-        },
-        goto_next_end = {
-          [']M'] = '@function.outer',
-          [']['] = '@class.outer',
-        },
-        goto_previous_start = {
-          ['[m'] = '@function.outer',
-          ['[['] = '@class.outer',
-        },
-        goto_previous_end = {
-          ['[M'] = '@function.outer',
-          ['[]'] = '@class.outer',
-        },
-      },
-      swap = {
-        enable = true,
-        swap_next = {
-          ['<leader>a'] = '@parameter.inner',
-        },
-        swap_previous = {
-          ['<leader>A'] = '@parameter.inner',
-        },
-      },
-    },
-  }
-end, 0)
-
 -- Diagnostic keymaps
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic message' })
@@ -486,6 +399,9 @@ local on_attach = function(_, bufnr)
   nmap('<leader>wl', function()
     print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
   end, '[W]orkspace [L]ist Folders')
+
+  -- Custom keymaps
+  vim.keymap.set('i', '<D-s>', '<ESC>:w<CR>', { buffer = bufnr, desc = 'Exit and save file' })
 
   -- Create a command `:Format` local to the LSP buffer
   vim.api.nvim_buf_create_user_command(bufnr, 'Format', function(_)
