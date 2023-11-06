@@ -288,6 +288,9 @@ vim.api.nvim_set_keymap('n', '<leader>tn', ':tabnext<CR>', { desc = 'Go to next 
 vim.api.nvim_set_keymap('n', '<leader>tp', ':tabprev<CR>', { desc = 'Go to previous tab' })
 vim.api.nvim_set_keymap('n', '<leader>tw', ':tabclose<CR>', { desc = 'Close active tab' })
 
+-- [[ Escape and save ]]
+vim.api.nvim_set_keymap('i', '<leader>s', '<ESC>:w<CR>', { desc = 'Escape and save (insert mode)', noremap = true, silent = true })
+
 -- [[ Configure Telescope ]]
 -- See `:help telescope` and `:help telescope.setup()`
 require('telescope').setup {
